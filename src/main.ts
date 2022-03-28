@@ -26,7 +26,6 @@ async function run() {
         const pipelineContentString = JSON.stringify(pipelineContent, null, 2);
         const pathToFile = path.join(namespaceDir,`${pipeline}.json`);
         await writeFile(pathToFile, pipelineContentString);
-        console.log(pipeline,pipelineContent);
       }
   }
  
