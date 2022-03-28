@@ -12,7 +12,7 @@ async function run() {
     const workspace: string = process.env.GITHUB_WORKSPACE as string || __dirname;
     const backupDir = path.join(workspace, 'pipelines');
     if (!fs.existsSync(backupDir)) {
-      fs.mkdirSync(backupDir, { mode: 0o755 });
+      fs.mkdirSync(backupDir, { mode: 0o777 });
     }
     for (const namespace of namespaces) {
       const pipelines = await gcpFusionService.getNamespacePipelines(namespace);
@@ -23,7 +23,7 @@ async function run() {
         continue;
       }
       if (!fs.existsSync(namespaceDir)) {
-        fs.mkdirSync(namespaceDir, { mode: 0o755 });
+        fs.mkdirSync(namespaceDir, { mode: 0o777 });
       }
       for (const pipeline of pipelines) {
         const pipelineContent = await gcpFusionService.getPipeline(namespace, pipeline);
@@ -51,7 +51,7 @@ async function run() {
  */
 async function writeFile(filename: string, content: string) {
 
-  return fs.promises.writeFile(filename, content, { mode: 0o755 });
+  return fs.promises.writeFile(filename, content, { mode: 0o777 });
 }
 
 run();
