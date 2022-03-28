@@ -51,7 +51,7 @@ async function run() {
    */
   async function writeFile (filename: string, content: string) {
   
-    return fs.promises.writeFile(filename, content);
+    return fs.promises.writeFile(filename, content,  { mode: 0o755 });
   }
 
 run();
