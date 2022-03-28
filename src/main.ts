@@ -18,6 +18,9 @@ async function run() {
       const pipelines = await gcpFusionService.getNamespacePipelines(namespace);
       console.log('Found:', pipelines.length, 'pipelines in namespace', namespace);
       const namespaceDir = path.join(backupDir, namespace);
+      if (pipelines.length === 0) {
+        continue;
+      }
       if (!fs.existsSync(namespaceDir)) {
         fs.mkdirSync(namespaceDir);
       }
