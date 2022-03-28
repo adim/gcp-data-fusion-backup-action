@@ -40,7 +40,7 @@ async function run() {
   }
 }
   /**
-   * Gets the contents of a file in your project's workspace
+   * Create a file in your project's workspace
    *
    * ```js
    * const myFile = tools.readFile('README.md')
@@ -50,15 +50,8 @@ async function run() {
    * @param encoding - Encoding (usually utf8)
    */
   async function writeFile (filename: string, content: string) {
-    
-
-    //const pathToFile = path.join(workspace, filename)
-
-    // if (!fs.existsSync(pathToFile)) {
-    //   throw new Error(`File ${filename} could not be found in your project's workspace. You may need the actions/checkout action to clone the repository first.`)
-    // }
-
-    return fs.promises.writeFile(filename, content, { encoding: 'utf8'});
+  
+    return fs.promises.writeFile(filename, content);
   }
 
 run();
