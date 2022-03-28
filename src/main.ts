@@ -7,12 +7,19 @@ import { GCPFusionService } from './gcp-fusion-service';
 async function run() {
   try {
     const fusionUrlParameter: string = core.getInput('fusion-url') || process.env.FUSION_URL || '';
+    const parentFolder: string = core.getInput('parent-folder') || '';
     const gcpFusionService = new GCPFusionService(fusionUrlParameter);
     const namespaces = await gcpFusionService.getNamespaces();
     const workspace: string = process.env.GITHUB_WORKSPACE as string || __dirname;
-    const backupDir = path.join(workspace, 'pipelines');
+    if (parentFolder !== '') {
+      const parentDir = path.join(workspace,parentFolder);
+      if (!fs.existsSync(parentDir)) {
+        fs.mkdirSync(parentDir);
+      }
+    }
+    const backupDir = path.join(workspace, parentFolder, 'pipelines');
     if (!fs.existsSync(backupDir)) {
-      fs.mkdirSync(backupDir, { mode: 0o777 });
+      fs.mkdirSync(backupDir);
     }
     for (const namespace of namespaces) {
       const pipelines = await gcpFusionService.getNamespacePipelines(namespace);
@@ -23,7 +30,7 @@ async function run() {
         continue;
       }
       if (!fs.existsSync(namespaceDir)) {
-        fs.mkdirSync(namespaceDir, { mode: 0o777 });
+        fs.mkdirSync(namespaceDir);
       }
       for (const pipeline of pipelines) {
         const pipelineContent = await gcpFusionService.getPipeline(namespace, pipeline);
@@ -51,7 +58,7 @@ async function run() {
  */
 async function writeFile(filename: string, content: string) {
 
-  return fs.promises.writeFile(filename, content, { mode: 0o777 });
+  return fs.promises.writeFile(filename, content);
 }
 
 run();

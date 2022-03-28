@@ -2,9 +2,9 @@
   "name": "gcp-data-fusion-backup-action",
   "version": "1.0.0",
   "description": "An action for backup GCP data fusion pipelines.",
-  "main": "lib/main.js",
+  "main": "dist/main/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "ncc build -m src/main.ts -o dist/main",
     "format": "prettier --write **/*.ts",
     "test": "jest"
   },
@@ -31,6 +31,7 @@
     "@actions/github": "^5.0.0",
     "@actions/io": "^1.1.2",
     "@actions/tool-cache": "^1.7.2",
+    "@vercel/ncc": "^0.33.3",
     "axios": "^0.26.1",
     "google-auth-library": "^7.14.1"
   },

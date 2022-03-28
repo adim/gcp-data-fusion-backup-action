@@ -2,12 +2,9 @@ name: 'GCP data fusion backup pipelines'
 description: 'Backup all pipelines from GCP data fusion machine to github'
 author: 'GitHub'
 inputs:
-  repo-token:
-    description: 'Token for the repository. Can be passed in using {{ secrets.GITHUB_TOKEN }}'
-    required: true
   fusion-url:
     description: 'GCP data fusion machine URL'
     required: true
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: 'node16'
+  main: 'dist/main/index.js'
