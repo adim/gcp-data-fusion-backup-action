@@ -58,7 +58,7 @@ async function run() {
     //   throw new Error(`File ${filename} could not be found in your project's workspace. You may need the actions/checkout action to clone the repository first.`)
     // }
 
-    return fs.promises.writeFile(filename, content, { encoding: 'utf8', flag: 'w'});
+    return fs.promises.writeFile(filename, content, { encoding: 'utf8'});
   }
 
 run();
