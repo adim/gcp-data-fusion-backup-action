@@ -10,7 +10,6 @@ See [action.yml](action.yml)
 steps:
 - uses: adim/gcp-data-fusion-backup-action@main
   with:
-    repo-token: ${{ secrets.GITHUB_TOKEN }}
     fusion-url: '{YOUR-INSTANCE-NAME}-dot-usc1.datafusion.googleusercontent.com'
 ```
 
