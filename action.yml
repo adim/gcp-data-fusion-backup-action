@@ -5,6 +5,10 @@ inputs:
   fusion-url:
     description: 'GCP data fusion machine URL'
     required: true
+    
+branding:
+  icon: 'download-cloud'
+  color: 'blue'
 runs:
   using: 'node16'
   main: 'dist/main/index.js'
