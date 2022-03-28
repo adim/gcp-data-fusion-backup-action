@@ -19,6 +19,7 @@ async function run() {
       console.log('Found:', pipelines.length, 'pipelines in namespace', namespace);
       const namespaceDir = path.join(backupDir, namespace);
       if (pipelines.length === 0) {
+        console.log('No pipelines found in namespace', namespace);
         continue;
       }
       if (!fs.existsSync(namespaceDir)) {
