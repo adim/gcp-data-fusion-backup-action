@@ -6,13 +6,13 @@ import { GCPFusionService } from './gcp-fusion-service';
 
 async function run() {
   try {
-    const fusionUrlParameter: string = core.getInput('fusion-url')|| process.env.FUSION_URL || '';
+    const fusionUrlParameter: string = core.getInput('fusion-url') || process.env.FUSION_URL || '';
     const gcpFusionService = new GCPFusionService(fusionUrlParameter);
     const namespaces = await gcpFusionService.getNamespaces();
     const workspace: string = process.env.GITHUB_WORKSPACE as string || __dirname;
     const backupDir = path.join(workspace, 'pipelines');
-    if (!fs.existsSync(backupDir)){
-      fs.mkdirSync(backupDir);
+    if (!fs.existsSync(backupDir)) {
+      fs.mkdirSync(backupDir, { mode: 0o755 });
     }
     for (const namespace of namespaces) {
       const pipelines = await gcpFusionService.getNamespacePipelines(namespace);
@@ -23,35 +23,35 @@ async function run() {
         continue;
       }
       if (!fs.existsSync(namespaceDir)) {
-        fs.mkdirSync(namespaceDir);
+        fs.mkdirSync(namespaceDir, { mode: 0o755 });
       }
       for (const pipeline of pipelines) {
         const pipelineContent = await gcpFusionService.getPipeline(namespace, pipeline);
         const pipelineContentString = JSON.stringify(pipelineContent, null, 2);
-        const pathToFile = path.join(namespaceDir,`${pipeline}.json`);
+        const pathToFile = path.join(namespaceDir, `${pipeline}.json`);
         await writeFile(pathToFile, pipelineContentString);
       }
-  }
- 
+    }
+
   } catch (error) {
     core.setFailed(error as any)
     console.log(error);
     return;
   }
 }
-  /**
-   * Create a file in your project's workspace
-   *
-   * ```js
-   * const myFile = tools.readFile('README.md')
-   * ```
-   *
-   * @param filename - Name of the file
-   * @param encoding - Encoding (usually utf8)
-   */
-  async function writeFile (filename: string, content: string) {
-  
-    return fs.promises.writeFile(filename, content,  { mode: 0o755 });
-  }
+/**
+ * Create a file in your project's workspace
+ *
+ * ```js
+ * const myFile = tools.readFile('README.md')
+ * ```
+ *
+ * @param filename - Name of the file
+ * @param encoding - Encoding (usually utf8)
+ */
+async function writeFile(filename: string, content: string) {
+
+  return fs.promises.writeFile(filename, content, { mode: 0o755 });
+}
 
 run();
